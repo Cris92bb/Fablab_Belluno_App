@@ -28,11 +28,11 @@ class FLHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //cover image Widget
-    Widget coverImage = new Image.asset(
-      'images/fablogo.bmp',
-      height: 180.0,
+    Widget coverImage = 
+    new Image.asset( 'images/fablogo.bmp',
+      width: MediaQuery.of(context).size.width,
       fit: BoxFit.contain,
-    );
+      );
     //Title widget
     Widget title = new Container(
         padding: EdgeInsets.all(32.0),
@@ -391,7 +391,7 @@ class SingleArticle extends StatelessWidget {
     );
 
     Widget cover = post.thumbnailUrl != null
-        ? new Image.network(post.medThumb, height: 200.0, fit: BoxFit.cover)
+        ? new Image.network(post.medThumb, height: 200.0, fit: BoxFit.cover, alignment: Alignment.topCenter,)
         : new Column();
 
     var unescape = new HtmlUnescape();
