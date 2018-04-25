@@ -8,11 +8,9 @@ It's my first application using Flutter.io so not sure aboout the correctness of
 ## Getting Started
 
 TODO
-- Make the header image to stick to the top border
-- Parse articles description to get rid of html characters
+- Parse articles description to show tags (optional)
 - Follow us -> Facebook Twitter Instagram
 - Firebase integration
 - Push notifications
-- Login with Google for
-- Booking a machine
+- Login with Google for booking a machine
 
