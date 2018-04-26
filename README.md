@@ -13,4 +13,7 @@ TODO
 - Firebase integration
 - Push notifications
 - Login with Google for booking a machine
+- Swiping from one article to another 
 
+latest release:
+https://play.google.com/store/apps/details?id=com.fablabl.fablabvetrina&hl=en_US
