@@ -31,7 +31,10 @@ class Post {
 
     String pDate = json['modified'];
     pDate = pDate.substring(0, 10);
-    pDate = pDate.split('-').reversed.join('/');
+    pDate = pDate
+        .split('-')
+        .reversed
+        .join('/');
 
     String authorName = json['author']['first_name'] != ""
         ? json['author']['first_name'] + " " + json['author']['last_name']
@@ -61,17 +64,18 @@ class EventPost extends Post {
   final String publishDate;
   final String author;
 
-  EventPost(
-      {this.id,
-      this.url,
-      this.title,
-      this.content,
-      this.thumbnailUrl,
-      this.time,
-      this.geo,
-      this.medThumb,
-      this.publishDate,
-      this.author});
+  EventPost({
+    this.id,
+    this.url,
+    this.title,
+    this.content,
+    this.thumbnailUrl,
+    this.time,
+    this.geo,
+    this.medThumb,
+    this.publishDate,
+    this.author
+  });
 
   factory EventPost.fromJson(Map<String, dynamic> json) {
     final dateList = json['custom_fields']['data'];
@@ -99,11 +103,15 @@ class EventPost extends Post {
     excerpt = excerpt.substring(0, excerpt.length - 5);
     String pDate = json['modified'];
     pDate = pDate.substring(0, 10);
-    pDate = pDate.split('-').reversed.join('/');
+    pDate = pDate
+        .split('-')
+        .reversed
+        .join('/');
 
     String authorName = json['author']['first_name'] != ""
         ? json['author']['first_name'] + " " + json['author']['last_name']
         : json['author']['name'];
+
     return new EventPost(
         time: time,
         title: json['title'],
@@ -114,6 +122,7 @@ class EventPost extends Post {
         medThumb: thumb,
         geo: tempgc,
         publishDate: pDate,
-        author: authorName);
+        author: authorName
+    );
   }
 }

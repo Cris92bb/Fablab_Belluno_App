@@ -231,7 +231,7 @@ class PostItem extends StatelessWidget {
               ),
             ),
             new Container(
-              //post descripton
+              //post description
               padding: new EdgeInsets.all(20.0),
               child: new Text(unescape.convert(post.content), softWrap: true),
             ),
@@ -251,7 +251,6 @@ class PostItem extends StatelessWidget {
             )
           ]);
     }
-
     return _buildTiles(post);
   }
 }
@@ -274,7 +273,8 @@ class FLResponse {
         status: json['status'],
         count: json['count'],
         countTotal: json['count_total'],
-        posts: plist);
+        posts: plist
+    );
   }
 
   factory FLResponse.fromEventJson(Map<String, dynamic> json) {
@@ -299,9 +299,6 @@ class SingleArticle extends StatelessWidget {
   final Post post;
 
   const SingleArticle(this.post); //creating from poassing a Post object
-
-
-
   @override
   Widget build(BuildContext context) {
     Row buttons = new Row(
