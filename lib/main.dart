@@ -28,11 +28,11 @@ class FLHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //cover image Widget
-    Widget coverImage = 
-    new Image.asset( 'images/fablogo.bmp',
+    Widget coverImage = new Image.asset(
+      'images/fablogo.bmp',
       width: MediaQuery.of(context).size.width,
       fit: BoxFit.contain,
-      );
+    );
     //Title widget
     Widget title = new Container(
         padding: EdgeInsets.all(32.0),
@@ -243,6 +243,21 @@ class PostItem extends StatelessWidget {
           key: new PageStorageKey(post.id),
           children: <Widget>[
             new Container(
+              padding: new EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0.0),
+              child: new Row(
+                children: <Widget>[
+                  new Expanded(
+                    child: new Text(post.author,
+                        style: new TextStyle(color: Colors.grey[700])),
+                  ),
+                  new Expanded(
+                      child: new Text(post.publishDate,
+                          textAlign: TextAlign.end,
+                          style: new TextStyle(color: Colors.grey[700])))
+                ],
+              ),
+            ),
+            new Container(
               //post descripton
               padding: new EdgeInsets.all(20.0),
               child: new Text(unescape.convert(post.content), softWrap: true),
@@ -310,6 +325,8 @@ class Post {
   final String content;
   final String thumbnailUrl;
   final String medThumb;
+  final String publishDate;
+  final String author;
 
   Post(
       {this.id,
@@ -317,7 +334,9 @@ class Post {
       this.title,
       this.content,
       this.thumbnailUrl,
-      this.medThumb});
+      this.medThumb,
+      this.publishDate,
+      this.author});
 
   factory Post.fromJson(Map<String, dynamic> json) {
     String thumb = json['thumbnail'];
@@ -329,13 +348,24 @@ class Post {
     String excerpt = json['excerpt'];
     excerpt = excerpt.substring(3);
     excerpt = excerpt.substring(0, excerpt.length - 5);
+
+    String pDate = json['modified'];
+    pDate = pDate.substring(0, 10);
+    pDate = pDate.split('-').reversed.join('/');
+
+    String authorName = json['author']['first_name'] != ""
+        ? json['author']['first_name'] + " " + json['author']['last_name']
+        : json['author']['name'];
+
     return new Post(
         title: json['title'],
         content: excerpt,
         url: json['url'],
         id: json['id'],
         thumbnailUrl: json['thumbnail'],
-        medThumb: thumb);
+        medThumb: thumb,
+        publishDate: pDate,
+        author: authorName);
   }
 }
 
@@ -369,10 +399,18 @@ class SingleArticle extends StatelessWidget {
       );
     }
 
-    Widget buttons = new Container(
-      alignment: AlignmentDirectional.bottomCenter,
-      child: new Row(
+    Widget cover = post.thumbnailUrl != null
+        ? new Image.network(
+            post.medThumb,
+            width: MediaQuery.of(context).size.width,
+            fit: BoxFit.cover,
+            alignment: Alignment.topCenter,
+          )
+        : new Column();
+
+    Row buttons = new Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
           new GestureDetector(
             child: buildButtonColumn(Icons.web, 'Leggi Tutto'),
@@ -386,46 +424,60 @@ class SingleArticle extends StatelessWidget {
               await share(post.url);
             },
           )
-        ],
-      ),
-    );
-
-    Widget cover = post.thumbnailUrl != null
-        ? new Image.network(post.medThumb, height: 200.0, fit: BoxFit.cover, alignment: Alignment.topCenter,)
-        : new Column();
+        ]);
 
     var unescape = new HtmlUnescape();
 
     return new Scaffold(
-        appBar: new AppBar(
-          title: new Text(post.title),
-        ),
-        body: new Container(
-          child: new ListView(
-            children: <Widget>[
-              new ClipPath(
-                child: cover,
-                clipper: new BottomWaveClipper(),
-              ),
-              new Container(
-                child: new Text(
-                  post.title,
-                  style: new TextStyle(
-                    color: Colors.deepOrange,
-                    fontWeight: FontWeight.bold,
-                  ),
+      appBar: new AppBar(
+        title: new Text(post.title),
+      ),
+      body: new Container(
+        child: new Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            new ClipPath(child: cover, clipper: new BottomWaveClipper()),
+            new Container(
+              child: new Text(
+                post.title,
+                style: new TextStyle(
+                  fontSize: 18.0,
+                  color: Colors.deepOrange,
+                  fontWeight: FontWeight.bold,
                 ),
-                alignment: Alignment.center,
               ),
-              new Container(
+              alignment: Alignment.center,
+            ),
+            new Container(
                 padding: EdgeInsets.all(20.0),
-                child:
-                    new Text( unescape.convert(post.content) )
+                child: new Text(unescape.convert(post.content))),
+            new Container(
+              padding: new EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 20.0),
+              child: new Row(
+                children: <Widget>[
+                  new Expanded(
+                    child: new Text(
+                      post.author,
+                      style: new TextStyle(color: Colors.grey[700]),
+                    ),
+                  ),
+                  new Expanded(
+                      child: new Text(
+                    post.publishDate,
+                    textAlign: TextAlign.end,
+                    style: new TextStyle(color: Colors.grey[700]),
+                  )),
+                ],
               ),
-              buttons
-            ],
-          ),
-        ));
+            ),
+            new Container(
+                alignment: Alignment.bottomCenter,
+                padding: new EdgeInsets.only(bottom: 20.0),
+                child: buttons),
+          ],
+        ),
+      ),
+    );
   }
 }
 
