@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:share/share.dart';
 import 'package:html_unescape/html_unescape.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'CustomWidgets.dart';
 import 'Helpers.dart';
 
@@ -90,6 +90,67 @@ class FLHome extends StatelessWidget {
       },
     );
 
+    Widget drawer = new Drawer(
+        child: new ListView(children: <Widget>[
+          new DrawerHeader(
+            decoration: new BoxDecoration(
+                gradient: new LinearGradient(
+                  colors: [Colors.orange[300], Colors.orange[600]],
+                )),
+            child: new Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                new Image.asset(
+                  "images/fablogo.png",
+                  width: 100.0,
+                ),
+                new Text(
+                  "Fablab Belluno",
+                  style: new TextStyle(fontSize: 20.0, color: Colors.white),
+                )
+              ],
+            ),
+          ),
+          new ListTile(
+            title: new Text("Seguici su"),
+            onTap: null,
+          ),
+          new ListTile(
+            leading: new Icon(FontAwesomeIcons.facebook),
+            title: new Text("Facebook"),
+            onTap: () async {
+              launch("https://www.facebook.com/FabLabBelluno/");
+            },
+          ),
+          new ListTile(
+            leading: new Icon(FontAwesomeIcons.twitter),
+            title: new Text("Twitter"),
+            onTap: () async {
+              launch("https://twitter.com/fablabimpresa");
+            },
+          ),
+          new ListTile(
+            leading: new Icon(FontAwesomeIcons.instagram),
+            title: new Text("Instagram"),
+            onTap: () async {
+              launch("https://www.instagram.com/fablabelluno/");
+            },
+          ),
+          new Divider(),
+          new Container(
+            alignment: Alignment.bottomLeft,
+            padding: new EdgeInsets.all(20.0),
+            child: new Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [new Text(
+                  "Versione 1.4",
+                  style: new TextStyle(color: Colors.grey[700]),
+                )
+                ]),
+          )
+        ]));
 
     //Row with buttons
     Widget buttons = new Container(
@@ -153,7 +214,8 @@ class FLHome extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[buttons]),
               ),
-            ]));
+            ]),
+        drawer: drawer);
   }
 }
 
@@ -251,6 +313,7 @@ class PostItem extends StatelessWidget {
             )
           ]);
     }
+
     return _buildTiles(post);
   }
 }
@@ -273,8 +336,7 @@ class FLResponse {
         status: json['status'],
         count: json['count'],
         countTotal: json['count_total'],
-        posts: plist
-    );
+        posts: plist);
   }
 
   factory FLResponse.fromEventJson(Map<String, dynamic> json) {
@@ -290,8 +352,6 @@ class FLResponse {
         eventposts: plist);
   }
 }
-
-
 
 //SINGLE article page
 
@@ -329,7 +389,8 @@ class SingleArticle extends StatelessWidget {
         child: new Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            new ClipPath(child: new CoverImage(post.medThumb),
+            new ClipPath(
+                child: new CoverImage(post.medThumb),
                 clipper: new BottomWaveClipper()),
             new Container(
               child: new Text(
@@ -360,8 +421,7 @@ class SingleArticle extends StatelessWidget {
                         post.publishDate,
                         textAlign: TextAlign.end,
                         style: new TextStyle(color: Colors.grey[700]),
-                      )
-                  ),
+                      )),
                 ],
               ),
             ),
@@ -398,7 +458,6 @@ class BottomWaveClipper extends CustomClipper<Path> {
 
 //articles helper ends ==============================================
 
-
 class Events extends StatelessWidget {
   final uri = 'http://fablab.centroconsorzi.it/api/';
 
@@ -433,8 +492,6 @@ class Events extends StatelessWidget {
 }
 
 //------------------------------- events getter
-
-
 
 class EventPostItem extends StatelessWidget {
   const EventPostItem(this.post);
@@ -500,6 +557,7 @@ class EventPostItem extends StatelessWidget {
             )
           ]);
     }
+
     return _buildTiles(post);
   }
 }
