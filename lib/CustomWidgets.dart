@@ -110,7 +110,8 @@ class CustomDrawer extends StatelessWidget {
                 ),
               ),
               new ListTile(
-                title: new Text("Seguici su"),
+                title: new Text(
+                  "Seguici su", style: new TextStyle(color: Colors.grey),),
                 onTap: null,
               ),
               new ListTile(
