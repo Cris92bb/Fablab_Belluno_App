@@ -9,7 +9,6 @@ It's my first application using Flutter.io so not sure aboout the correctness of
 
 TODO
 - Parse articles description to show tags (optional)
-- Follow us -> Facebook Twitter Instagram
 - Firebase integration
 - Push notifications
 - Login with Google for booking a machine
