@@ -83,6 +83,7 @@ class CustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Drawer(
         child: new ListView(
+            padding: new EdgeInsets.all(0.0),
             children: <Widget>[
               new DrawerHeader(
                 decoration: new BoxDecoration(
