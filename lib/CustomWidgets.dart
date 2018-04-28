@@ -110,7 +110,8 @@ class CustomDrawer extends StatelessWidget {
                 ),
               ),
               new ListTile(
-                title: new Text("Seguici su"),
+                title: new Text(
+                  "Seguici su", style: new TextStyle(color: Colors.grey),),
                 onTap: null,
               ),
               new ListTile(
@@ -139,6 +140,11 @@ class CustomDrawer extends StatelessWidget {
               ),
               new Divider(),
               new Container(
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height / 3.2,
+                // fixed heigth 1/3 of the screen so the version would go to bottom
                 alignment: Alignment.bottomRight,
                 padding: new EdgeInsets.all(20.0),
                 child: new Column(
