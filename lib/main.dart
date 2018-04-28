@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:share/share.dart';
 import 'package:html_unescape/html_unescape.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'CustomWidgets.dart';
 import 'Helpers.dart';
 
@@ -89,69 +88,6 @@ class FLHome extends StatelessWidget {
         );
       },
     );
-
-    Widget drawer = new Drawer(
-        child: new ListView(children: <Widget>[
-          new DrawerHeader(
-            decoration: new BoxDecoration(
-                gradient: new LinearGradient(
-                  colors: [Colors.orange[300], Colors.orange[600]],
-                )),
-            child: new Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                new Image.asset(
-                  "images/fablogo.png",
-                  width: 100.0,
-                ),
-                new Text(
-                  "Fablab Belluno",
-                  style: new TextStyle(fontSize: 20.0, color: Colors.white),
-                )
-              ],
-            ),
-          ),
-          new ListTile(
-            title: new Text("Seguici su"),
-            onTap: null,
-          ),
-          new ListTile(
-            leading: new Icon(FontAwesomeIcons.facebook),
-            title: new Text("Facebook"),
-            onTap: () async {
-              launch("https://www.facebook.com/FabLabBelluno/");
-            },
-          ),
-          new ListTile(
-            leading: new Icon(FontAwesomeIcons.twitter),
-            title: new Text("Twitter"),
-            onTap: () async {
-              launch("https://twitter.com/fablabimpresa");
-            },
-          ),
-          new ListTile(
-            leading: new Icon(FontAwesomeIcons.instagram),
-            title: new Text("Instagram"),
-            onTap: () async {
-              launch("https://www.instagram.com/fablabelluno/");
-            },
-          ),
-          new Divider(),
-          new Container(
-            alignment: Alignment.bottomLeft,
-            padding: new EdgeInsets.all(20.0),
-            child: new Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [new Text(
-                  "Versione 1.4",
-                  style: new TextStyle(color: Colors.grey[700]),
-                )
-                ]),
-          )
-        ]));
-
     //Row with buttons
     Widget buttons = new Container(
       alignment: AlignmentDirectional.bottomCenter,
@@ -215,7 +151,7 @@ class FLHome extends StatelessWidget {
                     children: <Widget>[buttons]),
               ),
             ]),
-        drawer: drawer);
+        drawer: new CustomDrawer());
   }
 }
 
@@ -402,6 +338,7 @@ class SingleArticle extends StatelessWidget {
                 ),
               ),
               alignment: Alignment.center,
+              padding: new EdgeInsets.symmetric(horizontal: 10.0),
             ),
             new Container(
                 padding: EdgeInsets.all(20.0),
