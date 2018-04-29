@@ -175,7 +175,7 @@ class Articles extends StatelessWidget {
           if (snapshot.hasData) {
             return new ListView.builder(
               itemBuilder: (BuildContext context, int index) => new PostItem(
-                  snapshot.data.posts[index]), // building listails from data
+                  snapshot.data.posts[index], index, snapshot.data.posts), // building listails from data
               itemCount: snapshot.data.count, // how mouch post we have
             );
           } else if (snapshot.hasError) {
@@ -194,8 +194,10 @@ class Articles extends StatelessWidget {
 // articles classes ===============================================
 //Single row from Article list
 class PostItem extends StatelessWidget {
-  const PostItem(this.post); //creating from poassing a Post object
+  const PostItem(this.post, this.index, this.posts); //creating from poassing a Post object
   final Post post;
+  final int index;
+  final List<Post> posts;
 
   @override
   Widget build(BuildContext context) {
@@ -243,7 +245,7 @@ class PostItem extends StatelessWidget {
                 Navigator.push(
                   context,
                   new MaterialPageRoute(
-                      builder: (context) => new SingleArticle(post)),
+                      builder: (context) => new ArticlesWithSwipe(index, posts))
                 );
               },
             )
@@ -252,6 +254,70 @@ class PostItem extends StatelessWidget {
 
     return _buildTiles(post);
   }
+}
+
+class ArticlesWithSwipe extends StatefulWidget {
+  final int index;
+  final List<Post> posts;
+  ArticlesWithSwipe(this.index, this.posts);
+  @override
+    createState() => new ArticlesWithSwipeState(index, posts);
+}
+
+class ArticlesWithSwipeState extends State<ArticlesWithSwipe> {
+  final int index;
+  final List<Post> posts;
+  List<SingleArticle> _articles = new List<SingleArticle>();
+  
+  var _controller;
+  static const _kDuration = const Duration(milliseconds: 300);
+  static const _kCurve = Curves.ease;
+
+  ArticlesWithSwipeState(this.index, this.posts);
+
+  @override
+    Widget build(BuildContext context) {
+      _controller = new PageController(initialPage: index);
+      for (var post in posts) {
+        _articles.add(new SingleArticle(post));
+      }
+
+      return new Scaffold(
+        body: new Stack(
+          children: <Widget>[
+            new PageView.builder(
+              physics: new AlwaysScrollableScrollPhysics(),
+              controller: _controller,
+              itemBuilder: (BuildContext context, int index) {
+                return _articles[index % _articles.length];
+              },
+            ),
+            new Positioned(
+              bottom: 0.0,
+              left: 0.0,
+              right: 0.0,
+              child: new Container(
+                
+                padding: const EdgeInsets.all(5.0),
+                child: new Center(
+                  child: new DotsIndicator(
+                    controller: _controller,
+                    itemCount: _articles.length,
+                    onPageSelected: (int page) {
+                      _controller.animateToPage(
+                        page,
+                        duration: _kDuration,
+                        curve: _kCurve
+                      );
+                    },
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+    }
 }
 
 class FLResponse {
@@ -364,7 +430,7 @@ class SingleArticle extends StatelessWidget {
             ),
             new Container(
                 alignment: Alignment.bottomCenter,
-                padding: new EdgeInsets.only(bottom: 20.0),
+                padding: new EdgeInsets.only(bottom: 30.0),
                 child: buttons),
           ],
         ),
