@@ -268,24 +268,31 @@ class ArticlesWithSwipeState extends State<ArticlesWithSwipe> {
   final int index;
   final List<Post> posts;
   List<SingleArticle> _articles = new List<SingleArticle>();
+  String _title;
   
-  var _controller;
+  PageController _controller;
   static const _kDuration = const Duration(milliseconds: 300);
   static const _kCurve = Curves.ease;
 
-  ArticlesWithSwipeState(this.index, this.posts);
+  ArticlesWithSwipeState(this.index, this.posts) {
+    _title = posts[ index ].title;
+    for (var post in posts) {
+        _articles.add(new SingleArticle(post));
+      }
+  }
 
   @override
     Widget build(BuildContext context) {
       _controller = new PageController(initialPage: index);
-      for (var post in posts) {
-        _articles.add(new SingleArticle(post));
-      }
 
       return new Scaffold(
+        appBar: new AppBar(
+          title: new Text( _title ),
+        ),
         body: new Stack(
           children: <Widget>[
             new PageView.builder(
+              onPageChanged: ( (int index) => setState ( () => _title = "${posts[index].title}" ) ),
               physics: new AlwaysScrollableScrollPhysics(),
               controller: _controller,
               itemBuilder: (BuildContext context, int index) {
@@ -297,7 +304,6 @@ class ArticlesWithSwipeState extends State<ArticlesWithSwipe> {
               left: 0.0,
               right: 0.0,
               child: new Container(
-                
                 padding: const EdgeInsets.all(5.0),
                 child: new Center(
                   child: new DotsIndicator(
@@ -384,9 +390,7 @@ class SingleArticle extends StatelessWidget {
     var unescape = new HtmlUnescape();
 
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(post.title),
-      ),
+      appBar: null,
       body: new Container(
         child: new Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
