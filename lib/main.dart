@@ -269,13 +269,14 @@ class ArticlesWithSwipeState extends State<ArticlesWithSwipe> {
   final List<Post> posts;
   List<SingleArticle> _articles = new List<SingleArticle>();
   String _title;
+  HtmlUnescape unescape = new HtmlUnescape();
   
   PageController _controller;
   static const _kDuration = const Duration(milliseconds: 300);
   static const _kCurve = Curves.ease;
 
   ArticlesWithSwipeState(this.index, this.posts) {
-    _title = posts[ index ].title;
+    _title = unescape.convert(posts[ index ].title);
     for (var post in posts) {
         _articles.add(new SingleArticle(post));
       }
@@ -292,7 +293,7 @@ class ArticlesWithSwipeState extends State<ArticlesWithSwipe> {
         body: new Stack(
           children: <Widget>[
             new PageView.builder(
-              onPageChanged: ( (int index) => setState ( () => _title = "${posts[index].title}" ) ),
+              onPageChanged: ( (int index) => setState ( () => _title = "${unescape.convert(posts[index].title)}" ) ),
               physics: new AlwaysScrollableScrollPhysics(),
               controller: _controller,
               itemBuilder: (BuildContext context, int index) {
