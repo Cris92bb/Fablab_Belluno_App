@@ -210,7 +210,7 @@ class PostItem extends StatelessWidget {
               new Expanded(
                   child: new Container(
                       margin: new EdgeInsets.only(left: 20.0),
-                      child: new Text(post.title))),
+                      child: new Text(unescape.convert(post.title)))),
             ],
           ),
           key: new PageStorageKey(post.id),
@@ -400,7 +400,7 @@ class SingleArticle extends StatelessWidget {
                 clipper: new BottomWaveClipper()),
             new Container(
               child: new Text(
-                post.title,
+                unescape.convert(post.title),
                 style: new TextStyle(
                   fontSize: 18.0,
                   color: Colors.deepOrange,
@@ -506,6 +506,8 @@ class EventPostItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var unescape = new HtmlUnescape();
+
     Widget _buildTiles(EventPost root) {
       return new ExpansionTile(
           title: new Row(
@@ -514,7 +516,7 @@ class EventPostItem extends StatelessWidget {
               new Expanded(
                   child: new Container(
                 margin: new EdgeInsets.only(left: 20.0),
-                child: new Text(post.title),
+                child: new Text(unescape.convert(post.title)),
               )),
             ],
           ),
