@@ -7,6 +7,7 @@ class Post {
   final String medThumb;
   final String publishDate;
   final String author;
+  final String fullContent;
 
   Post(
       {this.id,
@@ -16,7 +17,8 @@ class Post {
       this.thumbnailUrl,
       this.medThumb,
       this.publishDate,
-      this.author});
+      this.author,
+      this.fullContent});
 
   factory Post.fromJson(Map<String, dynamic> json) {
     String thumb = json['thumbnail'];
@@ -29,6 +31,7 @@ class Post {
     excerpt = excerpt.substring(3);
     excerpt = excerpt.substring(0, excerpt.length - 5);
 
+    String content = json['content'];
     String pDate = json['modified'];
     pDate = pDate.substring(0, 10);
     pDate = pDate
@@ -48,7 +51,8 @@ class Post {
         thumbnailUrl: json['thumbnail'],
         medThumb: thumb,
         publishDate: pDate,
-        author: authorName);
+        author: authorName,
+        fullContent: content);
   }
 }
 
@@ -63,6 +67,7 @@ class EventPost extends Post {
   final String medThumb;
   final String publishDate;
   final String author;
+  final String fullContent;
 
   EventPost({
     this.id,
@@ -74,7 +79,8 @@ class EventPost extends Post {
     this.geo,
     this.medThumb,
     this.publishDate,
-    this.author
+    this.author,
+    this.fullContent
   });
 
   factory EventPost.fromJson(Map<String, dynamic> json) {
@@ -111,6 +117,8 @@ class EventPost extends Post {
     String authorName = json['author']['first_name'] != ""
         ? json['author']['first_name'] + " " + json['author']['last_name']
         : json['author']['name'];
+    
+    String fContent = json['content'];
 
     return new EventPost(
         time: time,
@@ -122,7 +130,8 @@ class EventPost extends Post {
         medThumb: thumb,
         geo: tempgc,
         publishDate: pDate,
-        author: authorName
+        author: authorName,
+        fullContent: fContent
     );
   }
 }

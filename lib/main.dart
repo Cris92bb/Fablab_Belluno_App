@@ -7,6 +7,7 @@ import 'package:share/share.dart';
 import 'package:html_unescape/html_unescape.dart';
 import 'CustomWidgets.dart';
 import 'Helpers.dart';
+import 'CustomParser/flutter_html_view.dart';
 
 void main() => runApp(new MyApp());
 
@@ -126,6 +127,7 @@ class FLHome extends StatelessWidget {
     return new Scaffold(
         appBar: new AppBar(
           title: new Text('Fablab Belluno'),
+          elevation: 0.0,
         ),
         body: new Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -186,6 +188,7 @@ class Articles extends StatelessWidget {
     return new Scaffold(
         appBar: new AppBar(
           title: new Text('Articoli'),
+          elevation: 0.0,
         ),
         body: articlesList);
   }
@@ -289,6 +292,7 @@ class ArticlesWithSwipeState extends State<ArticlesWithSwipe> {
       return new Scaffold(
         appBar: new AppBar(
           title: new Text( _title ),
+          elevation: 0.0,
         ),
         body: new Stack(
           children: <Widget>[
@@ -393,8 +397,8 @@ class SingleArticle extends StatelessWidget {
     return new Scaffold(
       appBar: null,
       body: new Container(
-        child: new Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: new ListView(
+          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             new ClipPath(
                 child: new CoverImage(post.medThumb),
@@ -413,7 +417,7 @@ class SingleArticle extends StatelessWidget {
             ),
             new Container(
                 padding: EdgeInsets.all(20.0),
-                child: new Text(unescape.convert(post.content))),
+                child: new HtmlView(data: post.fullContent)),
             new Container(
               padding: new EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 20.0),
               child: new Row(
@@ -494,6 +498,7 @@ class Events extends StatelessWidget {
     return new Scaffold(
         appBar: new AppBar(
           title: new Text('Eventi - Fablab'),
+          elevation: 0.0,
         ),
         body: response);
   }
