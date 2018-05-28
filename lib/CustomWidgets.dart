@@ -155,7 +155,7 @@ class CustomDrawer extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       new Text(
-                        "Versione 1.5",
+                        "Versione 2.0",
                         style: new TextStyle(color: Colors.grey),
                       )
                     ]),

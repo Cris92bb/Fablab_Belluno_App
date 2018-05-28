@@ -93,7 +93,7 @@ class EventPost extends Post {
       String yyyy = time.substring(0, 4);
       String mm = time.substring(4, 6);
       String dd = time.substring(6);
-      time = dd + ' - ' + mm + ' - ' + yyyy;
+      time = yyyy + '-' + mm + '-' + dd;
     }
     String tempgc = '';
     if (coords != null) {

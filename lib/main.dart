@@ -355,12 +355,24 @@ class FLResponse {
   factory FLResponse.fromEventJson(Map<String, dynamic> json) {
     final int count = json['count'];
     final List<EventPost> plist = [];
+    var now = new DateTime.now();
     for (int i = 0; i < count; i++) {
-      plist.add(EventPost.fromJson(json['posts'][i]));
+      EventPost temp = EventPost.fromJson(json['posts'][i]);
+      if (temp.time.isNotEmpty) {
+        var stplit = temp.time.split('-');
+        var time = new DateTime.utc(
+            int.parse(stplit[0]), int.parse(stplit[1]), int.parse(stplit[2])
+        );
+        if (time.isAfter(now)) {
+          plist.add(temp);
+        }
+      } else {
+        plist.add(temp);
+      }
     }
     return new FLResponse(
         status: json['status'],
-        count: json['count'],
+        count: plist.length,
         countTotal: json['count_total'],
         eventposts: plist);
   }
@@ -484,14 +496,17 @@ class Events extends StatelessWidget {
     Widget response = new FutureBuilder<FLResponse>(
         future: fetchRecent(),
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.hasData && snapshot.data.count > 0) {
             return new ListView.builder(
               itemBuilder: (BuildContext context, int index) =>
                   new EventPostItem(snapshot.data.eventposts[index]),
               itemCount: snapshot.data.count,
             );
           } else if (snapshot.hasError) {
-            return new Text("${snapshot.error}");
+            return new Text("Nessun evento al momento.");
+          } else if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.data.count == 0) {
+            return new Center(child: new Text("Nessun Evento per il momento."));
           }
           return new Center(child: new CircularProgressIndicator());
         });
